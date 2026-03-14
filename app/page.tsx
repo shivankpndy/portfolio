@@ -34,15 +34,28 @@ export default function Home() {
 
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <div className="my-16 text-center animate-fade-in">
-        <h2 className="text-sm text-zinc-500 ">
-          I'm building{" "}
-          <Link
-            target="_blank"
-            href="https://unkey.dev"
-            className="underline duration-500 hover:text-zinc-300"
-          >
-            unkey.dev
-          </Link> to solve API authentication and authorization for developers.
+        <h2 className="text-sm text-zinc-400 max-w-3xl mx-auto leading-relaxed px-4">
+          <span className="inline-flex flex-wrap items-center justify-center gap-2">
+            <span className="px-3 py-1 rounded-full border border-zinc-700/60 bg-zinc-900/50 text-zinc-300">
+              🎓 Student
+            </span>
+            <span className="px-3 py-1 rounded-full border border-zinc-700/60 bg-zinc-900/50 text-zinc-300">
+              🤖 Developer @{" "}
+              <Link
+                target="_blank"
+                href="https://aixor.studio"
+                className="underline decoration-zinc-500/70 duration-500 hover:text-zinc-100"
+              >
+                Aixor Studios
+              </Link>
+            </span>
+            <span className="px-3 py-1 rounded-full border border-zinc-700/60 bg-zinc-900/50 text-zinc-300">
+              ⚡ AI • Apps • Web • Automations
+            </span>
+            <span className="px-3 py-1 rounded-full border border-zinc-700/60 bg-zinc-900/50 text-zinc-300">
+              🥋 MMA athlete
+            </span>
+          </span>
         </h2>
       </div>
     </div>
