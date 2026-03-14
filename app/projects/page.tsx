@@ -26,11 +26,11 @@ export default async function ProjectsPage() {
   if (hasRedisEnv) {
     try {
       const redis = Redis.fromEnv();
-      const results = await redis.mget<number>(
+      const results = (await redis.mget(
         ...publishedProjects.map((p) =>
           ["pageviews", "projects", p.slug].join(":"),
         ),
-      );
+      )) as Array<number | null>;
 
       results.forEach((value, index) => {
         views[publishedProjects[index].slug] = value ?? 0;

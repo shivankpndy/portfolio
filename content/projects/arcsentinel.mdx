@@ -114,9 +114,9 @@ Increment `APP_VERSION` before OTA updates to verify remote flash success in tel
 |---|---|
 | `CAPTURE` | Capture JPEG, base64 encode, and send between `IMG_START` and `IMG_END` |
 | `STATUS` | Reply with camera state and firmware version |
-| `OTA_BEGIN <size> <chunks>` | Prepare OTA |
-| `OTA_CHUNK <seq> <len>` | Write OTA chunk |
-| `OTA_END <md5>` | Validate firmware and reboot |
+| `OTA_BEGIN \<size\> \<chunks\>` | Prepare OTA |
+| `OTA_CHUNK \<seq\> \<len\>` | Write OTA chunk |
+| `OTA_END \<md5\>` | Validate firmware and reboot |
 | `OTA_ABORT` | Cancel OTA session |
 
 ## Ground Bridge
