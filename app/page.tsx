@@ -3,8 +3,8 @@ import React from "react";
 import Particles from "./components/particles";
 
 const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
+  { name: "PROJECTS", href: "/projects" },
+  { name: "CONTACT", href: "/contact" },
 ];
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
+              className="text-sm font-semibold font-sans uppercase tracking-wide duration-500 text-zinc-500 hover:text-zinc-300"
             >
               {item.name}
             </Link>
