@@ -1,0 +1,123 @@
+---
+title: JARVIS
+description: JARVIS - A fully local, voice-controlled Personal AI Operating System. Runs entirely offline on your own hardware with local LLMs, IoT control, sensors, communications, and intelligent agent orchestration. No cloud. No subscriptions. Just a local AI.
+date: "2026-03-14"
+url: https://github.com/shivankpndy/jarvis
+published: true
+repository: shivankpndy/jarvis
+---
+
+# JARVIS (Just a Rather Very Intelligent System)
+
+Fully Local. Completely Offline. Zero Cloud.
+
+Built by Shivank Pandey.
+
+JARVIS is a voice-controlled personal AI operating system that runs entirely on your own hardware. No API keys for the core brain, no cloud dependency, and no subscriptions.
+
+## Hardware
+
+- USB microphone and speakers
+- ESP32-CAM module (AI Thinker)
+- USB webcam (motion detection + MJPEG stream)
+- DHT11 temperature/humidity sensor
+- Flame sensor module (DO output)
+- 3 LEDs (green, white, red)
+- 3 x 220 ohm resistors + 1 x 1K ohm (DHT11 pull-up)
+- Breadboard + jumper wires
+- Arduino Uno (USB-serial bridge)
+- Phone charger / power bank (ESP32 power)
+
+ESP32-CAM GPIO map:
+
+| GPIO | Component | Function |
+|---|---|---|
+| GPIO12 | Green LED + 220 ohm | Tea reminder (6AM + 5PM, 30 minutes) |
+| GPIO2 | White LED + 220 ohm | Room lights |
+| GPIO13 | Red LED + 220 ohm | Alert/intruder blink |
+| GPIO14 | DHT11 DATA + 10K pull-up | Temperature + humidity |
+| GPIO15 | Flame sensor DO | Fire detection (LOW = flame) |
+
+## Installation
+
+Prerequisites:
+
+- Python 3.11.9
+- Ollama
+- Mosquitto MQTT
+- rclone
+- Node.js 18+
+- Arduino IDE with ESP32 support
+
+Install Python packages:
+
+```bash
+pip install faster-whisper pyaudio ollama SpeechRecognition
+pip install crewai crewai-tools litellm
+pip install telethon python-dotenv paho-mqtt pyserial schedule
+pip install requests yfinance duckduckgo-search wikipedia
+pip install opencv-python caldav vobject httpx
+pip install playwright && playwright install firefox
+```
+
+Pull local models:
+
+```bash
+ollama pull llama3.2:3b
+ollama pull qwen2.5-coder:3b
+```
+
+Optional voice model:
+
+```bash
+cd D:\JARVIS\voices
+curl -L -o jarvis-medium.onnx "https://huggingface.co/jgkawell/jarvis/resolve/main/en/en_GB/jarvis/medium/jarvis-medium.onnx"
+curl -L -o jarvis-medium.onnx.json "https://huggingface.co/jgkawell/jarvis/resolve/main/en/en_GB/jarvis/medium/jarvis-medium.onnx.json"
+```
+
+## Environment Configuration
+
+```env
+TELEGRAM_API_ID=your_api_id
+TELEGRAM_API_HASH=your_api_hash
+GMAIL_EMAIL=your@gmail.com
+GMAIL_APP_PASSWORD=your_16_char_app_password
+SLACK_TOKEN=xoxp-your-token
+AIRLABS_KEY=your_key_from_airlabs.co
+HOME_CITY=XCITYX
+HOME_IATA=XXX
+HOME_LAT=XX.XXX
+HOME_LNG=XX.XXXX
+ZEPTO_PHONE=9XXXXXXXXX
+ZEPTO_ADDRESS=Home
+```
+
+One-time setup:
+
+```bash
+# Google Drive
+rclone config
+
+# Zepto Cafe login
+python zepto_agent.py --login
+```
+
+## Run
+
+Dashboard:
+
+```bash
+cd D:\JARVIS\dashboard
+npm install && npm start
+```
+
+Main runtime:
+
+```bash
+cd D:\JARVIS
+.\venv\Scripts\activate
+python jarvis.py
+cd D:\JARVIS\dashboard && npm start
+```
+
+Just a local AI, sir.

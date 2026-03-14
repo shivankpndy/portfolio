@@ -8,33 +8,55 @@ import { Redis } from "@upstash/redis";
 import { Eye } from "lucide-react";
 
 export const dynamic = "force-dynamic";
-export default async function ProjectsPage() {
-  const redis = Redis.fromEnv();
-  const views = (
-    await redis.mget<number[]>(
-      ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":")),
-    )
-  ).reduce((acc, v, i) => {
-    acc[allProjects[i].slug] = v ?? 0;
-    return acc;
-  }, {} as Record<string, number>);
 
-  const featured = allProjects.find((project) => project.slug === "unkey")!;
-  const top2 = allProjects.find((project) => project.slug === "planetfall")!;
-  const top3 = allProjects.find((project) => project.slug === "highstorm")!;
-  const sorted = allProjects
+const hasRedisEnv =
+  Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
+  Boolean(process.env.UPSTASH_REDIS_REST_TOKEN);
+
+export default async function ProjectsPage() {
+  const views = {} as Record<string, number>;
+  const publishedProjects = allProjects
     .filter((p) => p.published)
-    .filter(
-      (project) =>
-        project.slug !== featured.slug &&
-        project.slug !== top2.slug &&
-        project.slug !== top3.slug,
-    )
     .sort(
       (a, b) =>
         new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
         new Date(a.date ?? Number.POSITIVE_INFINITY).getTime(),
     );
+
+  if (hasRedisEnv) {
+    try {
+      const redis = Redis.fromEnv();
+      const results = await redis.mget<number>(
+        ...publishedProjects.map((p) =>
+          ["pageviews", "projects", p.slug].join(":"),
+        ),
+      );
+
+      results.forEach((value, index) => {
+        views[publishedProjects[index].slug] = value ?? 0;
+      });
+    } catch {
+      // If Redis is unavailable, default to zero views and keep the page rendered.
+    }
+  }
+
+  const [featured, ...remaining] = publishedProjects;
+  const highlights = remaining.slice(0, 2);
+  const sorted = remaining.slice(2);
+
+  if (!featured) {
+    return (
+      <div className="relative pb-16">
+        <Navigation />
+        <div className="px-6 pt-20 mx-auto max-w-7xl lg:px-8 md:pt-24 lg:pt-32">
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+            Projects
+          </h2>
+          <p className="mt-4 text-zinc-400">No published projects yet.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative pb-16">
@@ -93,7 +115,7 @@ export default async function ProjectsPage() {
           </Card>
 
           <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
-            {[top2, top3].map((project) => (
+            {highlights.map((project) => (
               <Card key={project.slug}>
                 <Article project={project} views={views[project.slug] ?? 0} />
               </Card>

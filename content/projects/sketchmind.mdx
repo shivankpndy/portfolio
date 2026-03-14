@@ -1,0 +1,107 @@
+---
+title: Sketchmind
+description: Sketchmind bridges natural language and embedded systems. Built on Ollama + Node.js, it generates Arduino sketches, pin connections, and component lists from plain text - then compiles and uploads via arduino-cli. No cloud. No API keys. Just plug in and build.
+date: "2026-03-14"
+url: https://github.com/shivankpndy/sketchmind
+published: true
+repository: shivankpndy/sketchmind
+---
+
+# Sketchmind
+
+Stop writing Arduino code by hand.
+
+Describe your project in plain English and Sketchmind generates code, a components list, wiring guidance, and can upload directly to your board.
+
+## What Sketchmind Generates
+
+- Arduino sketch (`.ino`) with syntax-highlighted code
+- Components list with quantities
+- Wiring diagram guidance
+- Circuit explanation in plain English
+- One-click compile and upload via `arduino-cli`
+
+AI backend options:
+
+- Cohere (cloud)
+- Ollama (fully local)
+
+Switch providers from `.env`.
+
+## Installation
+
+1. Install Node.js 18+.
+2. Install `arduino-cli` and add it to `PATH`.
+
+Install board cores:
+
+```bash
+arduino-cli core update-index
+arduino-cli core install arduino:avr
+```
+
+Optional ESP boards:
+
+```bash
+arduino-cli config add board_manager.additional_urls https://arduino.esp8266.com/stable/package_esp8266com_index.json
+arduino-cli config add board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+arduino-cli core update-index
+arduino-cli core install esp8266:esp8266
+arduino-cli core install esp32:esp32
+```
+
+Install common libraries:
+
+```bash
+arduino-cli lib install "Servo" "LiquidCrystal" "Wire" "IRremote" "DHT sensor library" "Adafruit NeoPixel"
+```
+
+Configure `.env`:
+
+```bash
+copy .env.example .env
+```
+
+Run:
+
+```bash
+node server.js
+```
+
+Open `http://localhost:3000`.
+
+## AI Provider Config
+
+```env
+AI_PROVIDER=ollama
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=qwen2.5-coder:1.5b
+PORT=3000
+```
+
+## Supported Boards
+
+| Board | FQBN |
+|---|---|
+| Arduino Uno | `arduino:avr:uno` |
+| Arduino Nano | `arduino:avr:nano` |
+| Arduino Mega | `arduino:avr:mega` |
+| NodeMCU ESP8266 | `esp8266:esp8266:nodemcuv2` |
+| Wemos D1 Mini | `esp8266:esp8266:d1_mini` |
+| ESP32 Dev Board | `esp32:esp32:esp32` |
+| ESP32 CAM | `esp32:esp32:esp32cam` |
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/generate` | Generate project from prompt |
+| `POST` | `/api/upload` | Compile and upload to board |
+| `GET` | `/api/ports` | Detect connected ports |
+| `GET` | `/api/config` | Return active provider + model |
+
+## License
+
+MIT - free to use, modify, and distribute.
+
+Built by Shivank Pandey.

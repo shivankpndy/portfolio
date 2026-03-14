@@ -6,21 +6,21 @@ import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
   title: {
-    default: "chronark.com",
-    template: "%s | chronark.com",
+    default: "shivankpndy.tech",
+    template: "%s | shivankpndy.tech",
   },
-  description: "Co-founder of unkey.dev and founder of planetfall.io",
+  description: "🎓 Student 🤖 Developer @ Aixor Studios ⚡ AI • Apps • Web • Automations 🥋 MMA athlete",
   openGraph: {
-    title: "chronark.com",
+    title: "shivankpndy.tech",
     description:
-      "Co-founder of unkey.dev and founder of planetfall.io",
-    url: "https://chronark.com",
-    siteName: "chronark.com",
+      "🎓 Student 🤖 Developer @ Aixor Studios ⚡ AI • Apps • Web • Automations 🥋 MMA athlete",
+    url: "https://shivankpndy.tech",
+    siteName: "shivankpndy.tech",
     images: [
       {
-        url: "https://chronark.com/og.png",
-        width: 1920,
-        height: 1080,
+        url: "https://shivankpndy.tech/logo.jpg",
+        width: 1200,
+        height: 1200,
       },
     ],
     locale: "en-US",
@@ -38,11 +38,14 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Chronark",
+    title: "shivankpndy",
     card: "summary_large_image",
+    images: ["https://shivankpndy.tech/logo.jpg"],
   },
   icons: {
-    shortcut: "/favicon.png",
+    shortcut: "/logo.jpg",
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
   },
 };
 const inter = Inter({

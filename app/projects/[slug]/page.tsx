@@ -8,6 +8,10 @@ import { Redis } from "@upstash/redis";
 
 export const dynamic = "force-dynamic";
 
+const hasRedisEnv =
+  Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
+  Boolean(process.env.UPSTASH_REDIS_REST_TOKEN);
+
 type Props = {
   params: {
     slug: string;
@@ -22,9 +26,18 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
-  const redis = Redis.fromEnv();
-  const views =
-    (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+  let views = 0;
+
+  if (hasRedisEnv) {
+    try {
+      const redis = Redis.fromEnv();
+      views =
+        (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ??
+        0;
+    } catch {
+      // If Redis is unavailable, keep rendering with zero views.
+    }
+  }
 
   return (
     <div className="bg-zinc-50 min-h-screen">
